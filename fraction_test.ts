@@ -1,4 +1,4 @@
-import { assertAlmostEquals, assertEquals } from "@std/assert";
+import { assertAlmostEquals, assertEquals, assertThrows } from "@std/assert";
 import { Fraction } from "./fraction.ts";
 
 Deno.test("fraction of 1/1 is 1.0", () => {
@@ -33,4 +33,38 @@ Deno.test("1/3 + 2/6 = 2/3 is roughly 0.67", () => {
 
   // Assert
   assertAlmostEquals(left.toFloat(0.01), 0.67);
+});
+
+Deno.test("1/2 * 2/1 is 1.0", () => {
+  // Arrange
+  const left = new Fraction(1, 2);
+  const right = new Fraction(2, 1);
+
+  // Act
+ left.multiply(right);
+
+  // Assert
+  assertEquals(left.toFloat(0.01), 1.0);
+});
+
+Deno.test("3/4 - 1/4 is 0.5", () => {
+  // Arrange
+  const left = new Fraction(3, 4);
+  const right = new Fraction(1, 4);
+
+  // Act
+  left.subtract(right);
+
+  // Assert
+  assertEquals(left.toFloat(0.01), 0.5);
+});
+
+
+Deno.test("denomintor = 0 throws error", () => {
+  // Arrange
+
+  // Act
+
+  // Assert
+  assertThrows(() => { new Fraction(3, 0) });
 });
